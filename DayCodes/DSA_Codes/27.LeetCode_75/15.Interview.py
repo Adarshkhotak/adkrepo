@@ -66,3 +66,56 @@ def group_anagrams(words):
 # Example usage
 words = ["eat", "tea", "tan", "ate", "nat", "bat"]
 print(group_anagrams(words))  # Output: [['eat', 'tea', 'ate'], ['tan', 'nat'], ['bat']]'''
+
+#Valid Email Adresses
+def is_valid_email(email: str) -> bool:
+    # Check if '@' is present exactly once
+    if email.count('@') != 1:
+        return False
+    
+    # Split into local part and domain
+    local, domain = email.split('@')
+    
+    # Local part and domain must not be empty
+    if not local or not domain:
+        return False
+    
+    # Domain must contain at least one dot
+    if '.' not in domain:
+        return False
+    
+    # Split domain into name and extension
+    domain_name, *extensions = domain.split('.')
+    
+    # Domain name and extension must not be empty
+    if not domain_name or not all(extensions):
+        return False
+    
+    # Extension should be at least 2 characters (like com, org, in)
+    if any(len(ext) < 2 for ext in extensions):
+        return False
+    
+    return True
+
+
+# Example usage
+emails = [
+    "test@example.com",
+    "user.name@domain.co.in",
+    "invalid-email@",
+    "another.test@domain.org",
+    "wrong@domain",
+    "@missinglocal.com",
+    "missingdomain@.com"
+]
+
+valid_emails = [email for email in emails if is_valid_email(email)]
+print("Valid emails:", valid_emails)
+
+#OR
+import re
+
+def is_valid_email(email: str) -> bool:
+    # Regex pattern for validating email
+    pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+    return re.match(pattern, email) is not None
